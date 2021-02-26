@@ -1,0 +1,67 @@
+<div class="content">
+    <div class="title">
+        <h2 class="content-block">Administrar <br><span>Articulos</span></h2>
+    </div>
+      
+    <div class="table">
+      <dx-load-panel
+          #loadPanel
+          shadingColor="rgba(0,0,0,0.4)"
+          [(visible)]="loadingVisible"
+          [showIndicator]="true"
+          [showPane]="true"
+          [shading]="true"
+          [closeOnOutsideClick]="false">
+      </dx-load-panel>
+      <dx-data-grid id="gridContainer" [dataSource]="articulos" [showBorders]="true" [columnAutoWidth]="true"
+      (onRowInserted)="onRowInserted($event)" (onRowUpdated)="onRowUpdated($event)">  
+        <dxo-paging [pageSize]="6" [pageIndex]="0">
+        </dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [showNavigationButtons]="true" [allowedPageSizes]="[3, 5, 6]"
+          [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-editing mode="popup" [allowUpdating]="true" [allowAdding]="true">
+            <dxo-popup title="Informacion del Articulo" [showTitle]="true" [width]="700" [height]="350"
+              [position]="{ my: 'center', at: 'center', of: 'window' }">
+            </dxo-popup>
+            <dxo-texts saveRow="Guardar" cancelRow="Cancelar" editRow="Editar">
+            </dxo-texts>
+            <dxo-form>
+                
+                <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
+                    <dxi-item dataField="articulo.unidadDetalle" editorType="dxSelectBox"
+                      [editorOptions]="{ items: unidadesText, searchEnabled: true}">
+                      <dxi-validation-rule type="required" message="El tipo de  unidad es obligatorio"></dxi-validation-rule>
+                    </dxi-item>
+                    <dxi-item dataField="articulo.detalle">
+                      <dxi-validation-rule type="required" message="El detalle es obligatorio"></dxi-validation-rule>
+                    </dxi-item>
+                    <dxi-item dataField="articulo.precio" format="currency">
+                      <dxi-validation-rule type="required" message="El precio es obligatorio"></dxi-validation-rule>
+                    </dxi-item>
+                    <dxi-item dataField="cantDisponible">
+                        <dxi-validation-rule type="required" message="La cantidad es obligatoria"></dxi-validation-rule>
+                    </dxi-item>
+                    <dxi-item dataField="existenciaMinima">
+                        <dxi-validation-rule type="required" message="La cantidad minima es obligatoria"></dxi-validation-rule>
+                    </dxi-item>
+                    <dxi-item dataField="existenciaMaxima">
+                        <dxi-validation-rule type="required" message="La cantidad maxima es obligatoria"></dxi-validation-rule>
+                    </dxi-item>
+                  </dxi-item>
+              
+            </dxo-form>
+          </dxo-editing>
+        <dxo-filter-row [visible]="showFilterRow"></dxo-filter-row>
+        <dxo-header-filter [visible]="showHeaderFilter"></dxo-header-filter>
+        <dxo-search-panel [visible]="true" [width]="240" placeholder="Search..."></dxo-search-panel>
+        <dxi-column dataField="articulo.detalle" [width]="140" caption="Descripcion"></dxi-column>
+        <dxi-column dataField="articulo.unidadDetalle" [width]="140" caption="Unidad Medida"></dxi-column>
+        <dxi-column dataField="articulo.precio" [width]="140" caption="Valor Unitario" format="currency"></dxi-column>
+        <dxi-column dataField="cantDisponible" [width]="140" caption="Cant"></dxi-column>
+        <dxi-column dataField="existenciaMinima" [width]="140" caption="Min"></dxi-column>
+        <dxi-column dataField="existenciaMaxima" [width]="140" caption="Max"></dxi-column>
+      </dx-data-grid>
+    </div>
+  </div>
+  

@@ -1,0 +1,81 @@
+<div class="content">
+    <div class="title">
+        <h2 class="content-block">Administrar <br><span>Facturas</span></h2>
+    </div>
+      
+    <div class="table">
+      <dx-load-panel
+          #loadPanel
+          shadingColor="rgba(0,0,0,0.4)"
+          [(visible)]="loadingVisible"
+          [showIndicator]="true"
+          [showPane]="true"
+          [shading]="true"
+          [closeOnOutsideClick]="false">
+      </dx-load-panel>
+      <dx-data-grid id="gridContainer" [dataSource]="facturas" [showBorders]="true" [columnAutoWidth]="true"
+      (onRowInserted)="onRowInserted($event)" [masterDetail]="{ enabled: true, template: 'detail' }" keyExpr="id">  
+        <dxo-paging [pageSize]="6" [pageIndex]="0">
+        </dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [showNavigationButtons]="true" [allowedPageSizes]="[3, 5, 6]"
+          [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-editing mode="popup" [allowUpdating]="true" [allowAdding]="true">
+            <dxo-popup title="Informacion de la venta" [showTitle]="true" [width]="700" [height]="350"
+              [position]="{ my: 'center', at: 'center', of: 'window' }">
+            </dxo-popup>
+            <dxo-texts saveRow="Guardar" cancelRow="Cancelar" editRow="Editar">
+            </dxo-texts>
+            <dxo-form>
+                <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
+                    <dxi-item dataField="fechaVenta" editorType="dxDateBox">
+                    </dxi-item>
+                    <dxi-item dataField="nombreCliente" editorType="dxSelectBox"
+                      [editorOptions]="{ items: clientesText, searchEnabled: true}">
+                      <dxi-validation-rule type="required" message="El cliente es obligatorio"></dxi-validation-rule>
+                    </dxi-item>
+                </dxi-item>
+            </dxo-form>
+          </dxo-editing>
+        <dxo-filter-row [visible]="showFilterRow"></dxo-filter-row>
+        <dxo-header-filter [visible]="showHeaderFilter"></dxo-header-filter>
+        <dxo-search-panel [visible]="true" [width]="240" placeholder="Search..."></dxo-search-panel>
+        <dxi-column dataField="id" [width]="140" caption="Nro"></dxi-column>
+        <dxi-column dataField="clienteId" [width]="140" caption="Cliente"></dxi-column>
+        <dxi-column dataField="nombreCliente" [width]="140" caption="Nombre"></dxi-column>
+        <dxi-column dataField="fechaVenta" [width]="140" caption="Fecha Venta" ></dxi-column>
+        <dxi-column dataField="vlrVenta" [width]="140" caption="Valor Venta"></dxi-column>
+
+        <div *dxTemplate="let factura of 'detail'">
+            <dx-data-grid [dataSource]="factura.data.detalles" [showBorders]="true" [columnAutoWidth]="true">
+            
+              <dxo-paging [pageSize]="3" [pageIndex]="0">
+              </dxo-paging>
+              <dxo-pager [showPageSizeSelector]="true" [showNavigationButtons]="true" [showInfo]="true"
+                infoText="Page #{0}. Total: {1} ({2} items)">
+              </dxo-pager>
+              <dxo-editing mode="row" [allowUpdating]="true" [allowAdding]="true">
+                <dxo-popup title="Linea Detalle" [showTitle]="true" [width]="700" [height]="250"
+                  [position]="{ my: 'center', at: 'center', of: 'window' }">
+                </dxo-popup>
+    
+                <dxo-texts saveRow="Guardar" cancelRow="Cancelar" editRow="Editar">
+                </dxo-texts>
+              </dxo-editing>
+              <dxo-search-panel [visible]="true" [width]="240" placeholder="Search..."></dxo-search-panel>
+              <dxi-column dataField="articuloId" [allowEditing]="false"></dxi-column>
+              <dxi-column dataField="cantidad"></dxi-column>
+              <dxi-column dataField="valor" format="currency"></dxi-column>
+    
+              <dxo-summary>
+                <dxi-total-item column="valor" summaryType="sum">
+                  <dxo-value-format format="currency" [precision]="2"></dxo-value-format>
+                </dxi-total-item>
+                <dxi-total-item column="articuloId" summaryType="count"></dxi-total-item>
+              </dxo-summary>
+            </dx-data-grid>
+          </div>
+      </dx-data-grid>
+    </div>
+  </div>
+  

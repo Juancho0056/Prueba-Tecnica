@@ -1,0 +1,61 @@
+<div class="content">
+    <div class="title">
+        <h2 class="content-block">Administrar <br><span>Clientes</span></h2>
+    </div>
+      
+    <div class="table">
+      <dx-load-panel
+          #loadPanel
+          shadingColor="rgba(0,0,0,0.4)"
+          [(visible)]="loadingVisible"
+          [showIndicator]="true"
+          [showPane]="true"
+          [shading]="true"
+          [closeOnOutsideClick]="false">
+      </dx-load-panel>
+      <dx-data-grid id="gridContainer" [dataSource]="clientes" [showBorders]="true" [columnAutoWidth]="true"
+      (onRowInserted)="onRowInserted($event)" (onRowUpdated)="onRowUpdated($event)">  
+        <dxo-paging [pageSize]="6" [pageIndex]="0">
+        </dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [showNavigationButtons]="true" [allowedPageSizes]="[3, 5, 6]"
+          [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-editing mode="popup" [allowUpdating]="true" [allowAdding]="true">
+            <dxo-popup title="Informacion del Cliente" [showTitle]="true" [width]="700" [height]="350"
+              [position]="{ my: 'center', at: 'center', of: 'window' }">
+            </dxo-popup>
+            <dxo-texts saveRow="Guardar" cancelRow="Cancelar" editRow="Editar">
+            </dxo-texts>
+            <dxo-form>
+                
+                <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
+                    <dxi-item dataField="tipoDocumentoDetalle" editorType="dxSelectBox"
+                      [editorOptions]="{ items: tiposText, searchEnabled: true}">
+                      <dxi-validation-rule type="required" message="El tipo de  documento es obligatorio"></dxi-validation-rule>
+                    </dxi-item>
+                    <dxi-item dataField="nroDocumento">
+                        <dxi-validation-rule type="required" message="El numero de documento es obligatorio"></dxi-validation-rule>
+                      </dxi-item>
+                    <dxi-item dataField="primerNombre">
+                      <dxi-validation-rule type="required" message="El primer nombre es obligatorio"></dxi-validation-rule>
+                    </dxi-item>
+                    <dxi-item dataField="segundoNombre">
+                    </dxi-item>
+                    <dxi-item dataField="fechaNacimiento" editorType="dxDateBox">
+                    </dxi-item>
+                  </dxi-item>
+              
+            </dxo-form>
+          </dxo-editing>
+        <dxo-filter-row [visible]="showFilterRow"></dxo-filter-row>
+        <dxo-header-filter [visible]="showHeaderFilter"></dxo-header-filter>
+        <dxo-search-panel [visible]="true" [width]="240" placeholder="Search..."></dxo-search-panel>
+        <dxi-column dataField="tipoDocumentoDetalle" [width]="140" caption="Tipo Documento"></dxi-column>
+        <dxi-column dataField="nroDocumento" [width]="140" caption="Nro Documento"></dxi-column>
+        <dxi-column dataField="primerNombre" [width]="140" caption="Primer Nombre" ></dxi-column>
+        <dxi-column dataField="segundoNombre" [width]="140" caption="Segundo Nombre"></dxi-column>
+        <dxi-column dataField="fechaNacimiento" [width]="140" caption="Fecha Nacimiento"></dxi-column>
+      </dx-data-grid>
+    </div>
+  </div>
+  
